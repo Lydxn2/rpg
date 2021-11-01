@@ -1,6 +1,6 @@
 void doGame() {
   background(BLACK);
-  println(roomR, roomC);
+  
   map[roomR][roomC].render();
   
   hero.act(); hero.render();
@@ -31,4 +31,6 @@ void doGame() {
   for (int i = 0; i < DARK_NUM; i++)
     for (int j = 0; j < DARK_NUM; j++)
       darkness[i][j].render();
+      
+  minimap.render();
 }

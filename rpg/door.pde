@@ -12,7 +12,7 @@ class Door extends GameObject {
   }
   
   void render() { //<>//
-    fill(#7a9cff);
+    fill(#56A86C);
     noStroke();
     rect(this.loc.x, this.loc.y, this.w, this.h);
   }
