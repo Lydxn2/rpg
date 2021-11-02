@@ -21,7 +21,7 @@ class Particle extends GameObject {
   
   void render() {
     noStroke();
-    fill(this.col, this.hp * 255 / this.fade);
+    fill(this.col);
     square(this.loc.x, this.loc.y, 10);
   }
 }

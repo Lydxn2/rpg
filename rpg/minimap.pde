@@ -13,14 +13,14 @@ class Minimap {
   
   void render() {
     noStroke();
-    fill(#D6D6D6);
+    fill(#666666);
 
     square(OFS, OFS, SIZE);
     
     float sqSize = (SIZE - BORDER_SIZE * 2) / this.dims;
     for (int i = 0; i < this.dims; i++) {
       for (int j = 0; j < this.dims; j++) {
-        fill(this.isRoom[j][i] ? #000000 : #FFFFFF);
+        fill(roomR == i && roomC == j ? #b8b6b6 : this.isRoom[j][i] ? #000000 : #FFFFFF);
         square(OFS + BORDER_SIZE + j * sqSize, OFS + BORDER_SIZE + i * sqSize, sqSize + 1 /* +1 because it fixes weird rendering? */ );
       }
     }

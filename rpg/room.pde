@@ -1,8 +1,8 @@
 class Room {
-  final static int DIM = 700;
+  final static float DIM = 700;
   final static int NUM_GRIDS = 20;
-  final static int GRID_SIZE = DIM / NUM_GRIDS;
-  final static int BORDER_SIZE = 15;
+  final static float GRID_SIZE = DIM / NUM_GRIDS;
+  final static float BORDER_SIZE = 15;
   
   ArrayList<Door> doors;
   int locR, locC;
@@ -29,7 +29,7 @@ class Room {
   void render() {
     // form the border
     rectMode(CORNER);
-    fill(#D6D6D6);
+    fill(#666666);
     noStroke();
     square(roomOfsX - BORDER_SIZE, roomOfsY - BORDER_SIZE, DIM + 2 * BORDER_SIZE);
     

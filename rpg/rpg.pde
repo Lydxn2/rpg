@@ -20,7 +20,7 @@ ArrayList<Particle> particles;
 PFont gameOverFont, monospaceFont;
 
 // action variables
-boolean keyUp, keyLeft, keyDown, keyRight;
+boolean keyW, keyA, keyS, keyD;
 
 // room variables
 int mapDims;
@@ -32,8 +32,8 @@ float roomOfsX, roomOfsY;
 Minimap minimap;
 
 // darkness variables
-final int DARK_NUM = 50;
-Darkness[][] darkness;
+final int DARK_Q = 5;
+ArrayList<Darkness> darkness;
 
 // hero variables
 Hero hero;
@@ -42,10 +42,10 @@ Hero hero;
 Mode mode;
 
 void setup() {
-  size(1200, 800);
+  size(1200, 800, FX2D);
   
   gameOverFont = createFont("data/fonts/rpg.ttf", 1);
-  monospaceFont = createFont("Source Code Pro Bold", 1);
+  monospaceFont = createFont("Consolas Bold", 1);
 
   // bad variable name i know, sorry
   roomOfsX = (width - Room.DIM) / 2.0;
@@ -55,19 +55,15 @@ void setup() {
   initTitle();
   
   readMap();
-  
-  darkness = new Darkness[DARK_NUM][DARK_NUM];
-  for (int i = 0; i < DARK_NUM; i++) {
-    for (int j = 0; j < DARK_NUM; j++) {
-      float dx = roomOfsX + i * Room.DIM / DARK_NUM;
-      float dy = roomOfsY + j * Room.DIM / DARK_NUM;
-      darkness[i][j] = new Darkness(dx, dy, Room.DIM / DARK_NUM);
+
+  darkness = new ArrayList<Darkness>();
+  for (float x = roomOfsX; x < roomOfsX + Room.DIM; x += DARK_Q) {
+    for (float y = roomOfsY; y < roomOfsY + Room.DIM; y += DARK_Q) {
+      darkness.add(new Darkness(x, y, DARK_Q));
     }
   }
 
-  hero = new Hero(width / 2, height / 2);
-
-
+  hero = new Hero(width / 2.0, height / 2.0);
 
   mode = Mode.GAME;
 }

@@ -28,9 +28,8 @@ void doGame() {
     }
   }
   
-  for (int i = 0; i < DARK_NUM; i++)
-    for (int j = 0; j < DARK_NUM; j++)
-      darkness[i][j].render();
-      
+  for (Darkness d : darkness)
+    d.render();
+  
   minimap.render();
 }

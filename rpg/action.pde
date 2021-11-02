@@ -1,21 +1,21 @@
 void keyPressed() {
-  if (keyCode == UP)
-    keyUp = true;
-  if (keyCode == LEFT)
-    keyLeft = true;
-  if (keyCode == DOWN)
-    keyDown = true;
-  if (keyCode == RIGHT)
-    keyRight = true;
+  if (key == 'w' || key == 'W')
+    keyW = true;
+  if (key == 'a' || key == 'A')
+    keyA = true;
+  if (key == 's' || key == 'S')
+    keyS = true;
+  if (key == 'd' || key == 'D')
+    keyD = true;
 }
 
 void keyReleased() {
-  if (keyCode == UP)
-    keyUp = false;
-  if (keyCode == LEFT)
-    keyLeft = false;
-  if (keyCode == DOWN)
-    keyDown = false;
-  if (keyCode == RIGHT)
-    keyRight = false;
+  if (key == 'w' || key == 'W')
+    keyW = false;
+  if (key == 'a' || key == 'A')
+    keyA = false;
+  if (key == 's' || key == 'S')
+    keyS = false;
+  if (key == 'd' || key == 'D')
+    keyD = false;
 }
