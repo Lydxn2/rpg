@@ -1,6 +1,6 @@
 abstract class GameObject {
   PVector loc, vel;
-  float hp, sz;
+  float hp, w, h;
   
   abstract void render();
   

@@ -5,11 +5,11 @@ class Room {
   final static float BORDER_SIZE = 15;
   
   ArrayList<Door> doors;
-  int locR, locC;
+  int r, c;
   
-  Room(int locR, int locC, int doorMask) {
-    this.locR = locR;
-    this.locC = locC;
+  Room(int r, int c, int doorMask) {
+    this.r = r;
+    this.c = c;
     this.doors = new ArrayList<Door>();
 
     // up door

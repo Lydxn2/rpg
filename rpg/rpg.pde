@@ -15,6 +15,7 @@ float[] titleX, titleY;
 
 // misc. variables
 ArrayList<Particle> particles;
+ArrayList<Bullet> bullets;
 
 // font variables
 PFont gameOverFont, monospaceFont;
@@ -50,8 +51,10 @@ void setup() {
   // bad variable name i know, sorry
   roomOfsX = (width - Room.DIM) / 2.0;
   roomOfsY = (height - Room.DIM) / 2.0;
- 
+
   particles = new ArrayList<Particle>();
+  bullets = new ArrayList<Bullet>();
+  
   initTitle();
   
   readMap();
@@ -59,7 +62,7 @@ void setup() {
   darkness = new ArrayList<Darkness>();
   for (float x = roomOfsX; x < roomOfsX + Room.DIM; x += DARK_Q) {
     for (float y = roomOfsY; y < roomOfsY + Room.DIM; y += DARK_Q) {
-      darkness.add(new Darkness(x, y, DARK_Q));
+      darkness.add(new Darkness(x, y, DARK_Q, DARK_Q));
     }
   }
 

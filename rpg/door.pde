@@ -1,7 +1,6 @@
 class Door extends GameObject {
   final static float DOOR_SIZE = Room.GRID_SIZE * 4;
-  
-  float w, h;
+
   int type;
   
   Door(float x, float y, float w, float h, int type) {
@@ -20,7 +19,7 @@ class Door extends GameObject {
   boolean isTouching(Hero hero) {
     return isRectIntersect(
       // give hero slightly larger hitbox to doors
-      hero.loc.x - hero.sz / 2, hero.loc.y - hero.sz / 2, hero.sz, hero.sz,
+      hero.loc.x - hero.w / 2, hero.loc.y - hero.h / 2, hero.w, hero.h,
       this.loc.x, this.loc.y, this.w, this.h);
   }
 }

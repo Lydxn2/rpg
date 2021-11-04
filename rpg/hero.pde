@@ -2,16 +2,15 @@ class Hero extends GameObject {
   final static float MAX_SPEED = 5;
   final static float ACCEL = 1;
   final static float FRICTION = 0.9;
-  
+
   Weapon weapon;
   
-  public Hero(float w, float h) {
-    this.loc = new PVector(w, h);
+  public Hero(float x, float y) {
+    this.loc = new PVector(x, y);
     this.vel = new PVector(0, 0);
-    this.sz = 50;
-    
-    PImage gunImg = loadImage("data/images/handgun.png");
-    this.weapon = new Weapon(this, gunImg);
+    this.w = this.h = 50;
+
+    this.weapon = new Handgun(this);
   }
   
   void act() {
@@ -28,10 +27,10 @@ class Hero extends GameObject {
     float upY = (height - Room.DIM) / 2.0;
     float downY = (height + Room.DIM) / 2.0;
     
-    if (this.loc.x <= leftX + this.sz / 2)  this.loc.x = leftX + this.sz / 2;
-    if (this.loc.x >= rightX - this.sz / 2) this.loc.x = rightX - this.sz / 2;
-    if (this.loc.y <= upY + this.sz / 2)   this.loc.y = upY + this.sz / 2;
-    if (this.loc.y >= downY - this.sz / 2)   this.loc.y = downY - this.sz / 2;
+    if (this.loc.x <= leftX + this.w / 2)  this.loc.x = leftX + this.w / 2;
+    if (this.loc.x >= rightX - this.w / 2) this.loc.x = rightX - this.w / 2;
+    if (this.loc.y <= upY + this.h / 2)   this.loc.y = upY + this.h / 2;
+    if (this.loc.y >= downY - this.h / 2)   this.loc.y = downY - this.h / 2;
     
     // constrain speed when moving diagonally
     if (this.vel.mag() > MAX_SPEED)
@@ -39,6 +38,9 @@ class Hero extends GameObject {
     
     // emulate deceleration
     this.vel.setMag(this.vel.mag() * FRICTION);
+    
+    if (mousePressed && this.weapon.cooldown.isDone())
+      this.weapon.shoot();
   }
   
   void render() {
@@ -46,6 +48,6 @@ class Hero extends GameObject {
     
     fill(#FFDDB3);
     stroke(#DBB98F); strokeWeight(4);
-    circle(this.loc.x, this.loc.y, this.sz);
+    ellipse(this.loc.x, this.loc.y, this.w, this.h);
   }
 }
