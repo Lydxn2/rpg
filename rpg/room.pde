@@ -2,7 +2,7 @@ class Room {
   final static float DIM = 700;
   final static int NUM_GRIDS = 20;
   final static float GRID_SIZE = DIM / NUM_GRIDS;
-  final static float BORDER_SIZE = 15;
+  final static float BORDER_SIZE = 20;
   
   ArrayList<Door> doors;
   int r, c;
@@ -27,12 +27,6 @@ class Room {
   }
   
   void render() {
-    // form the border
-    rectMode(CORNER);
-    fill(#666666);
-    noStroke();
-    square(roomOfsX - BORDER_SIZE, roomOfsY - BORDER_SIZE, DIM + 2 * BORDER_SIZE);
-    
     // fill room with checker pattern
     for (int i = 0; i < NUM_GRIDS; i++) {
       for (int j = 0; j < NUM_GRIDS; j++) {
@@ -41,6 +35,12 @@ class Room {
         square(roomOfsX + i * GRID_SIZE, roomOfsY + j * GRID_SIZE, GRID_SIZE);
       }
     }
+    
+    // form the border
+    rectMode(CORNER);
+    stroke(#666666); strokeWeight(BORDER_SIZE);
+    noFill();
+    square(roomOfsX - BORDER_SIZE / 2, roomOfsY - BORDER_SIZE / 2, DIM + BORDER_SIZE);
     
     // draw doors
     for (Door d : this.doors)

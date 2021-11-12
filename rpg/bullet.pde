@@ -1,15 +1,20 @@
 class Bullet extends GameObject {
+  Weapon weapon;
   PImage img;
   PVector initLoc;
 
   float range;
   float ang;
   
-  Bullet(String imgPath, float x, float y, float ang) {
+  Bullet(Weapon weapon, String imgPath, float ang) {
+    float nx = weapon.owner.loc.x + cos(ang) * weapon.owner.w;
+    float ny = weapon.owner.loc.y + sin(ang) * weapon.owner.h;
+    
+    this.weapon = weapon;
     this.img = loadImage(imgPath);
     
-    this.initLoc = new PVector(x, y);
-    this.loc = new PVector(x, y);
+    this.initLoc = new PVector(nx, ny);
+    this.loc = new PVector(nx, ny);
     
     this.vel = new PVector(1, 0);
     this.vel.rotate(ang);

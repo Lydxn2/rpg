@@ -36,9 +36,6 @@ class Minimap {
     textAlign(CENTER, CENTER);
     textFont(monospaceFont, 15);
     text("r=" + (roomR + 1) + ", c=" + (roomC + 1), OFS + SIZE / 2, OFS + SIZE + 10);
-    textFont(monospaceFont, 12);
-    text("Stats for nerds:", OFS + SIZE / 2, OFS + SIZE + 30);
-    text("x=" + heroX + ", y=" + heroY, OFS + SIZE / 2, OFS + SIZE + 45);
   }
   
   void addRoom(int r, int c) {

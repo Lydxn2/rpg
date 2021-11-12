@@ -4,13 +4,16 @@ class Hero extends GameObject {
   final static float FRICTION = 0.9;
 
   Weapon weapon;
+  HealthBar hpbar;
   
   public Hero(float x, float y) {
     this.loc = new PVector(x, y);
     this.vel = new PVector(0, 0);
     this.w = this.h = 50;
+    this.resetHP(500);
 
-    this.weapon = new Handgun(this);
+    this.weapon = new CRACKED(this);
+    this.hpbar = new HealthBar(this);
   }
   
   void act() {
@@ -49,5 +52,7 @@ class Hero extends GameObject {
     fill(#FFDDB3);
     stroke(#DBB98F); strokeWeight(4);
     ellipse(this.loc.x, this.loc.y, this.w, this.h);
+    
+    this.hpbar.render();
   }
 }

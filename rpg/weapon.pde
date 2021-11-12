@@ -1,6 +1,7 @@
 abstract class Weapon extends GameObject {
   GameObject owner;
   PImage img;
+  int atk;
   
   WeaponCooldown cooldown;
   
@@ -26,14 +27,13 @@ abstract class Weapon extends GameObject {
     this.cooldown.act();
     this.cooldown.render();
   }
-  
-  void setSize(float w, float h) {
-    this.w = w;
-    this.h = h;
-  }
-  
+
   void setCooldown(int cooldown) {
     this.cooldown = new WeaponCooldown(this, cooldown);
+  }
+  
+  void setATK(int atk) {
+    this.atk = atk;
   }
 }
 
@@ -53,11 +53,12 @@ class WeaponCooldown {
   }
   
   void render() {
+    // FIXME: don't hardcode coords plz
     float x = 100, y = 500, w = 80, h = 80;
     float ang = map(this.timer.curTick, 0, this.timer.numTicks, 0, TAU);
    
     noStroke();
-    fill(WHITE);
+    fill(#96F07D);
     ellipse(x, y, w, h);
     fill(BLACK, 50);
     arc(x, y, w - 5, h - 5, 0, ang);

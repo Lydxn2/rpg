@@ -33,8 +33,11 @@ float roomOfsX, roomOfsY;
 Minimap minimap;
 
 // darkness variables
-final int DARK_Q = 5;
+final int DARK_Q = 10;
 ArrayList<Darkness> darkness;
+
+// enemy variables
+ArrayList<Enemy> enemies;
 
 // hero variables
 Hero hero;
@@ -54,6 +57,7 @@ void setup() {
 
   particles = new ArrayList<Particle>();
   bullets = new ArrayList<Bullet>();
+  enemies = new ArrayList<Enemy>();
   
   initTitle();
   
@@ -69,6 +73,9 @@ void setup() {
   hero = new Hero(width / 2.0, height / 2.0);
 
   mode = Mode.GAME;
+  
+  // test enemy:
+  enemies.add(new Lurker(0, 0, 400, 400));
 }
 
 void draw() {
