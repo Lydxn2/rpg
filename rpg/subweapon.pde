@@ -6,7 +6,6 @@ class Handgun extends Weapon {
     super(owner, "data/images/handgun.png");
     this.setCooldown(30);
     this.setDimensions(39, 15);
-    this.setATK(15);
   }
   
   void shoot() {
@@ -14,10 +13,14 @@ class Handgun extends Weapon {
     
     float ang = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
     
-    Bullet bullet = new ClassicBullet(this, ang);
-    bullet.setVelocity(10);
-    bullet.setRange(350);
-    bullets.add(bullet);
+    Projectile projectile = new Bullet(this.owner, ang);
+    projectile.setATK(15);
+    projectile.setPierce(3);
+    projectile.setRange(350);
+    projectile.setVelocity(10);
+    projectile.offsetTo(this);
+    
+    projectiles.add(projectile);
   }
 }
 
@@ -30,7 +33,6 @@ class Rifle extends Weapon {
     super(owner, "data/images/rifle.png");
     this.setCooldown(4);
     this.setDimensions(66, 14);
-    this.setATK(4);
   }
   
   void shoot() {
@@ -39,10 +41,14 @@ class Rifle extends Weapon {
     float ang = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
     ang += random(-radians(5), radians(5));
     
-    Bullet bullet = new ClassicBullet(this, ang);
-    bullet.setVelocity(15);
-    bullet.setRange(350);
-    bullets.add(bullet);
+    Projectile projectile = new Bullet(this.owner, ang);
+    projectile.setATK(5);
+    projectile.setPierce(2);
+    projectile.setRange(350);
+    projectile.setVelocity(15);
+    projectile.offsetTo(this);
+    
+    projectiles.add(projectile);
   }
 }
 
@@ -53,43 +59,72 @@ class Shotgun extends Weapon {
     super(owner, "data/images/shotgun.png");
     this.setCooldown(60);
     this.setDimensions(60, 15);
-    this.setATK(12);
   }
   
   void shoot() {
     super.shoot();
     
-    for (int _ = 0; _ < 10; _++) {
+    for (int _ = 0; _ < 5; _++) {
       float ang = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
-      ang += random(-radians(20), radians(20));
+      ang += random(-radians(10), radians(10));
       
-      Bullet bullet = new ClassicBullet(this, ang);
-      bullet.setVelocity(20);
-      bullet.setRange(300);
-      bullets.add(bullet);
+      Projectile projectile = new Bullet(this.owner, ang);
+      projectile.setATK(30);
+      projectile.setPierce(3);
+      projectile.setRange(300);
+      projectile.setVelocity(20);
+      projectile.offsetTo(this);
+      
+      projectiles.add(projectile);
     }
   }
 }
 
-class CRACKED extends Weapon {
-  CRACKED(GameObject owner) {
+// - Very slow refresh
+// - Very high speed and damage
+class Sniper extends Weapon {
+  Sniper(GameObject owner) {
+    super(owner, "data/images/sniper.png");
+    this.setCooldown(120);
+    this.setDimensions(72, 12);
+  }
+  
+  void shoot() {
+    super.shoot();
+
+    float ang = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
+    
+    Projectile projectile = new Bullet(this.owner, ang);
+    projectile.setATK(100);
+    projectile.setPierce(6);
+    projectile.setRange(1000);
+    projectile.setVelocity(30);
+    projectile.offsetTo(this);
+    
+    projectiles.add(projectile);
+  }
+}
+
+class OPRifle extends Weapon {
+  OPRifle(GameObject owner) {
     super(owner, "data/images/rifle.png");
     this.setCooldown(1);
     this.setDimensions(66, 14);
-    this.setATK(1);
   }
   
   void shoot() {
     super.shoot();
     
-    for (int _ = 0; _ < 4; _++) {
-      float ang = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
-      ang += random(-radians(20), radians(20));
-      
-      Bullet bullet = new ClassicBullet(this, ang);
-      bullet.setVelocity(15);
-      bullet.setRange(350);
-      bullets.add(bullet);
-    }
+    float ang = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
+    ang += random(-radians(5), radians(5));
+    
+    Projectile projectile = new Bullet(this.owner, ang);
+    projectile.setATK(5);
+    projectile.setPierce(10);
+    projectile.setRange(350);
+    projectile.setVelocity(15);
+    projectile.offsetTo(this);
+    
+    projectiles.add(projectile);
   }
 }

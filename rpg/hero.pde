@@ -5,6 +5,9 @@ class Hero extends GameObject {
 
   Weapon weapon;
   HealthBar hpbar;
+
+  int immunityCooldown;
+  int alpha;
   
   public Hero(float x, float y) {
     this.loc = new PVector(x, y);
@@ -12,8 +15,11 @@ class Hero extends GameObject {
     this.w = this.h = 50;
     this.resetHP(500);
 
-    this.weapon = new CRACKED(this);
+    this.weapon = new OPRifle(this);
     this.hpbar = new HealthBar(this);
+    
+    this.immunityCooldown = 0;
+    this.alpha = 255;
   }
   
   void act() {
@@ -44,15 +50,24 @@ class Hero extends GameObject {
     
     if (mousePressed && this.weapon.cooldown.isDone())
       this.weapon.shoot();
+      
+    this.immunityCooldown = max(0, this.immunityCooldown - 1);
+    this.alpha = min(255, this.alpha + 30);
   }
   
   void render() {
     this.weapon.render();
     
-    fill(#FFDDB3);
-    stroke(#DBB98F); strokeWeight(4);
+    fill(#FFDDB3, this.alpha);
+    stroke(#DBB98F, this.alpha); strokeWeight(4);
     ellipse(this.loc.x, this.loc.y, this.w, this.h);
     
     this.hpbar.render();
+  }
+  
+  void takeDamage(float atk) {
+    this.hp = max(0, this.hp - atk);
+    this.immunityCooldown = 20;
+    this.alpha = 50;
   }
 }

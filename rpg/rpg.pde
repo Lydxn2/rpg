@@ -15,7 +15,7 @@ float[] titleX, titleY;
 
 // misc. variables
 ArrayList<Particle> particles;
-ArrayList<Bullet> bullets;
+ArrayList<Projectile> projectiles;
 
 // font variables
 PFont gameOverFont, monospaceFont;
@@ -25,7 +25,6 @@ boolean keyW, keyA, keyS, keyD;
 
 // room variables
 int mapDims;
-int roomR, roomC;
 Room[][] map;
 float roomOfsX, roomOfsY;
 
@@ -38,6 +37,9 @@ ArrayList<Darkness> darkness;
 
 // enemy variables
 ArrayList<Enemy> enemies;
+
+// item variables
+ArrayList<Item> items;
 
 // hero variables
 Hero hero;
@@ -56,9 +58,10 @@ void setup() {
   roomOfsY = (height - Room.DIM) / 2.0;
 
   particles = new ArrayList<Particle>();
-  bullets = new ArrayList<Bullet>();
+  projectiles = new ArrayList<Projectile>();
   enemies = new ArrayList<Enemy>();
   
+  hero = new Hero(width / 2.0, height / 2.0);
   initTitle();
   
   readMap();
@@ -70,12 +73,12 @@ void setup() {
     }
   }
 
-  hero = new Hero(width / 2.0, height / 2.0);
-
   mode = Mode.GAME;
   
-  // test enemy:
-  enemies.add(new Lurker(0, 0, 400, 400));
+  // test stuff:
+  for (int _ = 0; _ < 10; _++)
+    enemies.add(new Lurker(0, 0, random(300, 500), random(300, 500)));
+  items.add(new HealthPack(0, 0, 300, 300));
 }
 
 void draw() {
@@ -103,8 +106,8 @@ void initTitle() {
 void readMap() {
   String[] lines = loadStrings("data/map.txt");
   String[] spawn = lines[0].split(",");
-  
-  roomR = int(spawn[0]); roomC = int(spawn[1]);
+
+  hero.roomR = int(spawn[0]); hero.roomC = int(spawn[1]);
   mapDims = lines.length - 1;
 
   map = new Room[mapDims][mapDims];

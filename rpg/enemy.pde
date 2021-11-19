@@ -1,5 +1,6 @@
 class Enemy extends GameObject {
   int sr, sc, alpha;
+  float atk, speed;
   HealthBar hpbar;
   
   Enemy(int sr, int sc, float x, float y) {
@@ -13,10 +14,21 @@ class Enemy extends GameObject {
     this.hpbar = new HealthBar(this);
   }
 
-  void act() { super.act(); }
-  
   void render() {
     this.alpha = min(255, this.alpha + 30);
     this.hpbar.render();
+  }
+  
+  void takeDamage(float atk) {
+    this.hp = max(0, this.hp - atk);
+    this.alpha = 10;
+  }
+  
+  void setATK(float atk) {
+    this.atk = atk;
+  }
+  
+  void setSpeed(float speed) {
+    this.speed = speed;
   }
 }

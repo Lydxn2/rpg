@@ -20,13 +20,13 @@ class Minimap {
     float sqSize = (SIZE - BORDER_SIZE * 2) / this.dims;
     for (int i = 0; i < this.dims; i++) {
       for (int j = 0; j < this.dims; j++) {
-        fill(roomR == i && roomC == j ? #b8b6b6 : this.isRoom[j][i] ? #000000 : #FFFFFF);
+        fill(hero.roomR == i && hero.roomC == j ? #b8b6b6 : this.isRoom[j][i] ? #000000 : #FFFFFF);
         square(OFS + BORDER_SIZE + j * sqSize, OFS + BORDER_SIZE + i * sqSize, sqSize + 1 /* +1 because it fixes weird rendering? */ );
       }
     }
 
-    float heroX = OFS + BORDER_SIZE + roomC * sqSize + map(hero.loc.x, roomOfsX, roomOfsX + Room.DIM, 0, sqSize);
-    float heroY = OFS + BORDER_SIZE + roomR * sqSize + map(hero.loc.y, roomOfsY, roomOfsY + Room.DIM, 0, sqSize);
+    float heroX = OFS + BORDER_SIZE + hero.roomC * sqSize + map(hero.loc.x, roomOfsX, roomOfsX + Room.DIM, 0, sqSize);
+    float heroY = OFS + BORDER_SIZE + hero.roomR * sqSize + map(hero.loc.y, roomOfsY, roomOfsY + Room.DIM, 0, sqSize);
     
     // draw hero on minimap
     fill(RED);
@@ -35,7 +35,7 @@ class Minimap {
     fill(WHITE);
     textAlign(CENTER, CENTER);
     textFont(monospaceFont, 15);
-    text("r=" + (roomR + 1) + ", c=" + (roomC + 1), OFS + SIZE / 2, OFS + SIZE + 10);
+    text("r=" + (hero.roomR + 1) + ", c=" + (hero.roomC + 1), OFS + SIZE / 2, OFS + SIZE + 10);
   }
   
   void addRoom(int r, int c) {

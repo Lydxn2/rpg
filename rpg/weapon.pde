@@ -1,8 +1,7 @@
 abstract class Weapon extends GameObject {
   GameObject owner;
   PImage img;
-  int atk;
-  
+
   WeaponCooldown cooldown;
   
   Weapon(GameObject owner, String imgPath) {
@@ -30,10 +29,6 @@ abstract class Weapon extends GameObject {
 
   void setCooldown(int cooldown) {
     this.cooldown = new WeaponCooldown(this, cooldown);
-  }
-  
-  void setATK(int atk) {
-    this.atk = atk;
   }
 }
 

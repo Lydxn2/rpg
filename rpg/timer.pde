@@ -21,4 +21,8 @@ class Timer {
   int getTick() {
     return this.curTick;
   }
+  
+  void setRandomTick() {
+    this.curTick = (int) random(numTicks);
+  }
 }
