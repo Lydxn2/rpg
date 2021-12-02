@@ -18,7 +18,7 @@ class Handgun extends Weapon {
     projectile.setPierce(3);
     projectile.setRange(350);
     projectile.setVelocity(10);
-    projectile.offsetTo(this);
+    projectile.offsetTo(this.w);
     
     projectiles.add(projectile);
   }
@@ -46,7 +46,7 @@ class Rifle extends Weapon {
     projectile.setPierce(2);
     projectile.setRange(350);
     projectile.setVelocity(15);
-    projectile.offsetTo(this);
+    projectile.offsetTo(this.w);
     
     projectiles.add(projectile);
   }
@@ -73,7 +73,7 @@ class Shotgun extends Weapon {
       projectile.setPierce(3);
       projectile.setRange(300);
       projectile.setVelocity(20);
-      projectile.offsetTo(this);
+      projectile.offsetTo(this.w);
       
       projectiles.add(projectile);
     }
@@ -99,32 +99,35 @@ class Sniper extends Weapon {
     projectile.setPierce(6);
     projectile.setRange(1000);
     projectile.setVelocity(30);
-    projectile.offsetTo(this);
+    projectile.offsetTo(this.w);
     
     projectiles.add(projectile);
   }
 }
 
-class OPRifle extends Weapon {
-  OPRifle(GameObject owner) {
+class Sprayer extends Weapon {
+  final int CRAZY = 50;
+  
+  Sprayer(GameObject owner) {
     super(owner, "data/images/rifle.png");
-    this.setCooldown(1);
+    this.setCooldown(4);
     this.setDimensions(66, 14);
   }
   
   void shoot() {
     super.shoot();
-    
-    float ang = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
-    ang += random(-radians(5), radians(5));
-    
-    Projectile projectile = new Bullet(this.owner, ang);
-    projectile.setATK(5);
-    projectile.setPierce(10);
-    projectile.setRange(350);
-    projectile.setVelocity(15);
-    projectile.offsetTo(this);
-    
-    projectiles.add(projectile);
+
+    float startAng = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
+    for (int i = 0; i < CRAZY; i++) {
+      float ang = startAng + i * TAU / CRAZY;
+      Projectile projectile = new Bullet(this.owner, ang);
+      projectile.setATK(5);
+      projectile.setPierce(2);
+      projectile.setRange(9999);
+      projectile.setVelocity(15);
+      projectile.offsetTo(this.w);
+      
+      projectiles.add(projectile);
+    }
   }
 }

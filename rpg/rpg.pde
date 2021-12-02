@@ -1,5 +1,7 @@
+import java.util.HashMap;
+
 enum Mode {
-  INTRO, GAME
+  INTRO, GAME, UPGRADE
 }
 
 // color variables
@@ -16,12 +18,14 @@ float[] titleX, titleY;
 // misc. variables
 ArrayList<Particle> particles;
 ArrayList<Projectile> projectiles;
+Button upgradeButton;
 
 // font variables
 PFont gameOverFont, monospaceFont;
 
 // action variables
-boolean keyW, keyA, keyS, keyD;
+boolean keyW, keyA, keyS, keyD, keyQ, keyE;
+boolean freeQ, freeE;
 
 // room variables
 int mapDims;
@@ -43,15 +47,20 @@ ArrayList<Item> items;
 
 // hero variables
 Hero hero;
+int hpLevel, atkLevel, spdLevel, cash;
 
 // pretty self-explanatory
 Mode mode;
 
+HashMap<String, PImage> imgCache;
+
 void setup() {
   size(1200, 800, FX2D);
-  
+
   gameOverFont = createFont("data/fonts/rpg.ttf", 1);
   monospaceFont = createFont("Consolas Bold", 1);
+
+  imgCache = new HashMap<String, PImage>();
 
   // bad variable name i know, sorry
   roomOfsX = (width - Room.DIM) / 2.0;
@@ -60,11 +69,14 @@ void setup() {
   particles = new ArrayList<Particle>();
   projectiles = new ArrayList<Projectile>();
   enemies = new ArrayList<Enemy>();
+  items = new ArrayList<Item>();
   
   hero = new Hero(width / 2.0, height / 2.0);
   initTitle();
   
   readMap();
+  
+  upgradeButton = new Button(400, 30, 80, 80, "Upgrades", WHITE, BLACK);
 
   darkness = new ArrayList<Darkness>();
   for (float x = roomOfsX; x < roomOfsX + Room.DIM; x += DARK_Q) {
@@ -74,11 +86,13 @@ void setup() {
   }
 
   mode = Mode.GAME;
+
+  for (int i = 0; i < 20; i++)
+    enemies.add(new SpawningPool(0, 0, random(300, 400), random(300, 400)));
+  items.add(new SprayerItem(0, 0, 300, 300));
   
-  // test stuff:
-  for (int _ = 0; _ < 10; _++)
-    enemies.add(new Lurker(0, 0, random(300, 500), random(300, 500)));
-  items.add(new HealthPack(0, 0, 300, 300));
+  hpLevel = atkLevel = spdLevel = 1;
+  cash = 0;
 }
 
 void draw() {
@@ -88,6 +102,9 @@ void draw() {
       break;
     case GAME:
       doGame();
+      break;
+    case UPGRADE:
+      doUpgrade();
       break;
   }
   
@@ -118,17 +135,18 @@ void readMap() {
   
   for (int i = 0; i < mapDims; i++) {
     for (int j = 0; j < mapDims; j++) {
-      if (lines[i + 1].charAt(j) == '1')
+      if (lines[i + 1].charAt(j) != '?')
         minimap.addRoom(i, j);
 
       int msk = 0;
       for (int d = 0; d < 4; d++) {
         int nr = i + dr[d], nc = j + dc[d];
         if (nr < 0 || nr >= mapDims || nc < 0 || nc >= mapDims) continue;
-        if (lines[nr + 1].charAt(nc) != '1') continue;
+        if (lines[nr + 1].charAt(nc) == '?') continue;
         msk |= 1 << d;
       }
-      map[i][j] = new Room(i, j, msk);
+
+      map[i][j] = new Room(i, j, msk, lines[i + 1].charAt(j));
     }
   }
 }

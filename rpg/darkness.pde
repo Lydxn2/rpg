@@ -9,7 +9,7 @@ class Darkness extends GameObject {
   }
   
   void render() {
-    this.range = min(this.range + 5 + 50 / this.range, 500);
+    this.range = min(this.range + 5 + 50 / this.range, 700);
     
     float heroDist = dist(hero.loc.x, hero.loc.y, this.loc.x, this.loc.y);
     noStroke();

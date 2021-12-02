@@ -1,23 +1,36 @@
 void doGame() {
   background(BLACK);
-    
+
   map[hero.roomR][hero.roomC].render();
-    
+  
+  for (Item it : items)
+    if (hero.inRoomWith(it))
+      it.render();
+      
   for (int i = 0; i < enemies.size(); i++) {
     Enemy e = enemies.get(i);
     if (hero.inRoomWith(e))
       { e.act(); e.render(); }
   }
+
+  for (int i = 0; i < items.size(); i++) {
+    Item it = items.get(i);
+    if (hero.inRoomWith(it) && hero.loc.dist(it.loc) <= (hero.w + it.w) / 2 && keyQ && freeQ) {
+      it.hp = 0;
+      hero.useItem(it);
+      freeQ = false;
+    }
+  }
   
   for (Darkness d : darkness)
     d.render();
-    
+
   for (Projectile p : projectiles) {
     p.act(); p.render();
     if (p.owner instanceof Hero)
       for (Enemy e : enemies) {
         if (!p.hit.contains(e) && hero.inRoomWith(e) && p.loc.dist(e.loc) <= (p.w + p.h) / 2) {
-          e.takeDamage(p.atk);
+          e.takeDamage(p.atk * hero.atkMult);
           p.takeDamage(1);
           p.hit.add(e);
           continue;
@@ -33,13 +46,13 @@ void doGame() {
   
   if (hero.immunityCooldown == 0)
     for (Enemy e : enemies)
-      if (e.atk != 0 && isRectIntersect(hero.loc.x, hero.loc.y, hero.w, hero.h, e.loc.x, e.loc.y, e.w, e.h)) {
+      if (hero.inRoomWith(e) && e.atk != 0 && isRectIntersect(hero.loc.x, hero.loc.y, hero.w, hero.h, e.loc.x, e.loc.y, e.w, e.h)) {
         hero.takeDamage(e.atk);
         break;
       }
-    
+
   hero.act(); hero.render();
-  
+
   for (Door d : map[hero.roomR][hero.roomC].doors) {
     if (d.isTouching(hero)) {
       switch (d.type) {
@@ -70,9 +83,33 @@ void doGame() {
       projectiles.remove(i);
   
   // delete dead enemies
-  for (int i = enemies.size() - 1; i >= 0; i--)
-    if (enemies.get(i).hp == 0)
+  for (int i = enemies.size() - 1; i >= 0; i--) {
+    Enemy e = enemies.get(i);
+    if (e.hp == 0) {
       enemies.remove(i);
+      items.add(randomItem(e));
+      cash += 1000000000;
+    }
+  }
+  
+  // delete used items
+  for (int i = items.size() - 1; i >= 0; i--)
+    if (items.get(i).hp == 0)
+      items.remove(i);
   
   minimap.render();
+  
+  fill(WHITE);
+  textFont(monospaceFont, 15);
+  text("FPS counter: " + round(frameRate) + " / 60", width - 100, height - 20);
+  
+  fill(WHITE);
+  textAlign(RIGHT);
+  textFont(monospaceFont, 50);
+  text("$" + cash, width - 20, 50);
+  
+  if (keyE && freeE) {
+    mode = Mode.UPGRADE;
+    freeE = false;
+  }
 }

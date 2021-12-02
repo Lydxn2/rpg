@@ -6,11 +6,13 @@ class Room {
   
   ArrayList<Door> doors;
   int r, c;
+  char type;
   
-  Room(int r, int c, int doorMask) {
+  Room(int r, int c, int doorMask, char type) {
     this.r = r;
     this.c = c;
     this.doors = new ArrayList<Door>();
+    this.type = type;
 
     // up door
     if ((doorMask & 1) != 0)
@@ -24,6 +26,8 @@ class Room {
     // right door
     if ((doorMask & 8) != 0)
       this.doors.add(new Door(width - roomOfsX, (height - Door.DOOR_SIZE) / 2, BORDER_SIZE, Door.DOOR_SIZE, 3));
+      
+    this.createRoom();
   }
   
   void render() {
@@ -45,5 +49,16 @@ class Room {
     // draw doors
     for (Door d : this.doors)
       d.render();
+  }
+  
+  void createRoom() {
+    switch (this.type) {
+    case 'A':
+      enemies.add(new Lurker(this.r, this.c, 300, 200));
+      break;
+    case 'B':
+      enemies.add(new Turret(this.r, this.c, 300, 200));
+      break;
+    }
   }
 }

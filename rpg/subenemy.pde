@@ -1,13 +1,13 @@
 class Lurker extends Enemy {
-  Lurker(int sr, int sc, float x, float y) {
-    super(sr, sc, x, y);
+  Lurker(int roomR, int roomC, float x, float y) {
+    super(roomR, roomC, x, y);
 
     this.setDimensions(40, 40);
 
     this.resetHP(100);
     this.setATK(25);
     
-    this.setSpeed(random(0.6, 1.4));
+    this.setSpeed(random(1, 2));
   }
 
   void act() {
@@ -30,8 +30,8 @@ class Lurker extends Enemy {
 class Turret extends Enemy {
   Timer timer;
   
-  Turret(int sr, int sc, float x, float y) {
-    super(sr, sc, x, y);
+  Turret(int roomR, int roomC, float x, float y) {
+    super(roomR, roomC, x, y);
     
     this.setDimensions(60, 60);
     
@@ -49,7 +49,8 @@ class Turret extends Enemy {
       cannonBall.setATK(50);
       cannonBall.setPierce(1);
       cannonBall.setRange(1000);
-      cannonBall.setVelocity(2);
+      cannonBall.setVelocity(8);
+      cannonBall.offsetTo(30);
 
       projectiles.add(cannonBall);
       
@@ -76,13 +77,13 @@ class Turret extends Enemy {
 class SpawningPool extends Enemy {
   Timer timer;
   
-  SpawningPool(int sr, int sc, float x, float y) {
-    super(sr, sc, x, y);
+  SpawningPool(int roomR, int roomC, float x, float y) {
+    super(roomR, roomC, x, y);
     
     this.setDimensions(80, 80);
     this.resetHP(500);
     
-    this.timer = new Timer(2);
+    this.timer = new Timer(300);
     this.timer.setRandomTick();
   }
   

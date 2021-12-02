@@ -18,7 +18,7 @@ class Projectile extends GameObject {
     this.roomC = owner.roomC;
 
     this.owner = owner;
-    this.img = loadImage(imgPath);
+    this.img = loadImageFast(imgPath);
 
     this.initLoc = new PVector(owner.loc.x, owner.loc.y);
     this.loc = new PVector(owner.loc.x, owner.loc.y);
@@ -73,8 +73,8 @@ class Projectile extends GameObject {
     this.vel.setMag(vel);
   }
   
-  void offsetTo(Weapon weapon) {
-    PVector d = new PVector((weapon.w + this.w / 2) * cos(ang), (weapon.w + this.w / 2) * sin(ang));
+  void offsetTo(float w) {
+    PVector d = new PVector((w + this.w / 2) * cos(ang), (w + this.w / 2) * sin(ang));
     this.initLoc.add(d);
     this.loc.add(d);
   }

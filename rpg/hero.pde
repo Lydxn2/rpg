@@ -1,13 +1,13 @@
 class Hero extends GameObject {
-  final static float MAX_SPEED = 5;
   final static float ACCEL = 1;
-  final static float FRICTION = 0.9;
+  final static float FRICTION = 0.95;
 
   Weapon weapon;
   HealthBar hpbar;
 
   int immunityCooldown;
   int alpha;
+  float atkMult, speed;
   
   public Hero(float x, float y) {
     this.loc = new PVector(x, y);
@@ -15,11 +15,14 @@ class Hero extends GameObject {
     this.w = this.h = 50;
     this.resetHP(500);
 
-    this.weapon = new OPRifle(this);
+    this.weapon = new Sprayer(this);
     this.hpbar = new HealthBar(this);
     
     this.immunityCooldown = 0;
     this.alpha = 255;
+    
+    this.atkMult = 1;
+    this.speed = 4;
   }
   
   void act() {
@@ -42,8 +45,8 @@ class Hero extends GameObject {
     if (this.loc.y >= downY - this.h / 2)   this.loc.y = downY - this.h / 2;
     
     // constrain speed when moving diagonally
-    if (this.vel.mag() > MAX_SPEED)
-      this.vel.setMag(MAX_SPEED);
+    if (this.vel.mag() > this.speed)
+      this.vel.setMag(this.speed);
     
     // emulate deceleration
     this.vel.setMag(this.vel.mag() * FRICTION);
@@ -68,6 +71,21 @@ class Hero extends GameObject {
   void takeDamage(float atk) {
     this.hp = max(0, this.hp - atk);
     this.immunityCooldown = 20;
-    this.alpha = 50;
+  }
+  
+  void useItem(Item item) {
+    if (item instanceof MedKitItem) {
+      this.hp = min(this.hp + this.maxhp / 3, this.maxhp);
+    } else if (item instanceof HandgunItem) {
+      this.weapon = new Handgun(this);
+    } else if (item instanceof RifleItem) {
+      this.weapon = new Rifle(this);
+    } else if (item instanceof ShotgunItem) {
+      this.weapon = new Shotgun(this);
+    } else if (item instanceof SniperItem) {
+      this.weapon = new Sniper(this);
+    } else if (item instanceof SprayerItem) {
+      this.weapon = new Sprayer(this);
+    }
   }
 }

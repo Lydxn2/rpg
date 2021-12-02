@@ -1,11 +1,11 @@
 class Enemy extends GameObject {
-  int sr, sc, alpha;
+  int alpha;
   float atk, speed;
   HealthBar hpbar;
   
-  Enemy(int sr, int sc, float x, float y) {
-    this.sr = sr;
-    this.sc = sc;
+  Enemy(int roomR, int roomC, float x, float y) {
+    this.roomR = roomR;
+    this.roomC = roomC;
 
     this.loc = new PVector(x, y);
     this.vel = new PVector(0, 0);

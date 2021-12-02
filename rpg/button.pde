@@ -1,28 +1,29 @@
 class Button {
   float x, y, w, h;
   String text;
-  color col;
+  color bgCol, textCol;
   boolean clicked;
   
-  Button(float x, float y, float w, float h, String text, color col) {
+  Button(float x, float y, float w, float h, String text, color bgCol, color textCol) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.text = text;
-    this.col = col;
+    this.bgCol = bgCol;
+    this.textCol = textCol;
     
     this.clicked = false;
   }
   
-  void render() {
-    fill(col);
-    stroke(#FFFFFF); strokeWeight(10);
+  void render(int fs) {
+    fill(bgCol);
+    stroke(textCol); strokeWeight(10);
     rect(this.x, this.y, this.w, this.h, 20);
 
-    fill(#FFFFFF);
+    fill(textCol);
     textAlign(CENTER, CENTER);
-    textFont(createFont("Source Code Pro Bold", 1), 32);
+    textFont(createFont("Source Code Pro Bold", 1), fs);
     text(this.text, this.x + this.w / 2, this.y + this.h / 2);
   }
   
