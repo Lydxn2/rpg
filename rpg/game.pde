@@ -76,6 +76,12 @@ void doGame() {
       projectiles.clear();
     }
   }
+  
+  for (Message m : messages) {
+    m.act();
+    if (hero.inRoomWith(m))
+      m.render();
+  }
     
   // delete dead bullets
   for (int i = projectiles.size() - 1; i >= 0; i--)
@@ -87,8 +93,11 @@ void doGame() {
     Enemy e = enemies.get(i);
     if (e.hp == 0) {
       enemies.remove(i);
-      items.add(randomItem(e));
-      cash += 1000000000;
+      if (random(0, 1) < 0.5)
+        items.add(randomItem(e));
+      int addedCash = (int) random(1, 50);
+      cash += addedCash;
+      messages.add(new Message("+$" + addedCash, e, 20));
     }
   }
   
@@ -96,6 +105,11 @@ void doGame() {
   for (int i = items.size() - 1; i >= 0; i--)
     if (items.get(i).hp == 0)
       items.remove(i);
+      
+  // delete messages
+  for (int i = messages.size() - 1; i >= 0; i--)
+    if (messages.get(i).hp == 0)
+      messages.remove(i);
   
   minimap.render();
   

@@ -31,16 +31,28 @@ void keyReleased() {
 void mouseClicked() {
   if (mode == Mode.UPGRADE) {
     if (mouseY >= 150 && mouseY <= 200) {
-      hero.maxhp *= 1.2;
-      hpLevel++;
+      if (cash >= hpCost) {
+        hero.maxhp += 50;
+        hpLevel++;
+        cash -= hpCost;
+        hpCost *= 1.5;
+      }
     }
     if (mouseY >= 350 && mouseY <= 400) {
-      hero.atkMult += 0.3;
-      atkLevel++;
+      if (cash >= atkCost) {
+        hero.atkMult += 0.1;
+        atkLevel++;
+        cash -= atkCost;
+        atkCost *= 1.5;
+      }
     }
     if (mouseY >= 550 && mouseY <= 600) {
-      hero.speed += 1;
-      spdLevel++;
+      if (cash >= spdCost) {
+        hero.speed += 1;
+        spdLevel++;
+        cash -= spdCost;
+        spdCost *= 1.5;
+      }
     }
   }
 }
