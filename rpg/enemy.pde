@@ -1,5 +1,5 @@
 class Enemy extends GameObject {
-  int alpha;
+  int alpha, dropChance;
   float atk, speed;
   HealthBar hpbar;
   
@@ -12,6 +12,8 @@ class Enemy extends GameObject {
     
     this.alpha = 255;
     this.hpbar = new HealthBar(this);
+    
+    this.dropChance = 2;
   }
 
   void render() {
@@ -30,5 +32,9 @@ class Enemy extends GameObject {
   
   void setSpeed(float speed) {
     this.speed = speed;
+  }
+  
+  void setDropChance(int dropChance) {
+    this.dropChance = dropChance;
   }
 }

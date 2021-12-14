@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 enum Mode {
-  INTRO, GAME, UPGRADE
+  INTRO, GAME, UPGRADE, GAMEOVER
 }
 
 // color variables
@@ -18,7 +18,10 @@ float[] titleX, titleY;
 // misc. variables
 ArrayList<Particle> particles;
 ArrayList<Projectile> projectiles;
-Button upgradeButton;
+ArrayList<Message> messages;
+Button restartButton;
+
+boolean wasPressed, isClicked;
 
 // font variables
 PFont gameOverFont, monospaceFont;
@@ -48,6 +51,7 @@ ArrayList<Item> items;
 // hero variables
 Hero hero;
 int hpLevel, atkLevel, spdLevel, cash;
+int hpCost, atkCost, spdCost;
 
 // pretty self-explanatory
 Mode mode;
@@ -59,6 +63,8 @@ void setup() {
 
   gameOverFont = createFont("data/fonts/rpg.ttf", 1);
   monospaceFont = createFont("Consolas Bold", 1);
+  
+  restartButton = new Button(width / 2, 500, 300, 70, "RESTART", #ffe14a);
 
   imgCache = new HashMap<String, PImage>();
 
@@ -68,6 +74,7 @@ void setup() {
 
   particles = new ArrayList<Particle>();
   projectiles = new ArrayList<Projectile>();
+  messages = new ArrayList<Message>();
   enemies = new ArrayList<Enemy>();
   items = new ArrayList<Item>();
   
@@ -75,9 +82,8 @@ void setup() {
   initTitle();
   
   readMap();
+  readLayout();
   
-  upgradeButton = new Button(400, 30, 80, 80, "Upgrades", WHITE, BLACK);
-
   darkness = new ArrayList<Darkness>();
   for (float x = roomOfsX; x < roomOfsX + Room.DIM; x += DARK_Q) {
     for (float y = roomOfsY; y < roomOfsY + Room.DIM; y += DARK_Q) {
@@ -86,26 +92,34 @@ void setup() {
   }
 
   mode = Mode.GAME;
-
-  for (int i = 0; i < 20; i++)
-    enemies.add(new SpawningPool(0, 0, random(300, 400), random(300, 400)));
-  items.add(new SprayerItem(0, 0, 300, 300));
   
-  hpLevel = atkLevel = spdLevel = 1;
+  hpLevel = atkLevel = spdLevel = 10;
+  hpCost = atkCost = spdCost = 10;
   cash = 0;
+  
+  for (int _ = 0; _ < 1000; _++)
+    enemies.add(new Lurker(0, 0, 200, 200));
 }
 
 void draw() {
+  isClicked = false;
+  if (mousePressed) wasPressed = true;
+  if (!mousePressed && wasPressed)
+    { isClicked = true; wasPressed = false; }
+  
   switch (mode) {
-    case INTRO:
-      doIntro();
-      break;
-    case GAME:
-      doGame();
-      break;
-    case UPGRADE:
-      doUpgrade();
-      break;
+  case INTRO:
+    doIntro();
+    break;
+  case GAME:
+    doGame();
+    break;
+  case UPGRADE:
+    doUpgrade();
+    break;
+  case GAMEOVER:
+    doGameOver();
+    break;
   }
   
   for (Particle p : particles)
@@ -122,7 +136,7 @@ void initTitle() {
 
 void readMap() {
   String[] lines = loadStrings("data/map.txt");
-  String[] spawn = lines[0].split(",");
+  String[] spawn = lines[0].split(" ");
 
   hero.roomR = int(spawn[0]); hero.roomC = int(spawn[1]);
   mapDims = lines.length - 1;
@@ -147,6 +161,30 @@ void readMap() {
       }
 
       map[i][j] = new Room(i, j, msk, lines[i + 1].charAt(j));
+    }
+  }
+}
+
+void readLayout() {
+  String[] lines = loadStrings("data/layout.txt");
+  for (int i = 0; i < lines.length; i += 9) {
+    String[] rc = lines[i].split(" ");
+    int roomR = int(rc[0]), roomC = int(rc[1]);
+    for (int r = 0; r < 8; r++) {
+      for (int c = 0; c < 8; c++) {
+        char ch = lines[i + 1 + r].charAt(c);
+        float posX = roomOfsX + 40 + map(c, 0, 7, 0, Room.DIM - 80);
+        float posY = roomOfsY + 40 + map(r, 0, 7, 0, Room.DIM - 80);
+        
+        if (ch == 'L')
+          enemies.add(new Lurker(roomR, roomC, posX, posY));
+        else if (ch == 'T')
+          enemies.add(new Turret(roomR, roomC, posX, posY));
+        else if (ch == 'S')
+          enemies.add(new SpawningPool(roomR, roomC, posX, posY));
+        else if (ch == 'B')
+          enemies.add(new Boss(roomR, roomC, posX, posY));
+      }
     }
   }
 }

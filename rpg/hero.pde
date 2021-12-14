@@ -13,9 +13,9 @@ class Hero extends GameObject {
     this.loc = new PVector(x, y);
     this.vel = new PVector(0, 0);
     this.w = this.h = 50;
-    this.resetHP(500);
+    this.resetHP(300);
 
-    this.weapon = new Sprayer(this);
+    this.weapon = new Shotgun(this);
     this.hpbar = new HealthBar(this);
     
     this.immunityCooldown = 0;

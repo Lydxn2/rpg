@@ -32,7 +32,7 @@ void mouseClicked() {
   if (mode == Mode.UPGRADE) {
     if (mouseY >= 150 && mouseY <= 200) {
       if (cash >= hpCost) {
-        hero.maxhp += 50;
+        hero.maxhp *= 1.1;
         hpLevel++;
         cash -= hpCost;
         hpCost *= 1.5;
@@ -40,7 +40,7 @@ void mouseClicked() {
     }
     if (mouseY >= 350 && mouseY <= 400) {
       if (cash >= atkCost) {
-        hero.atkMult += 0.1;
+        hero.atkMult *= 1.1;
         atkLevel++;
         cash -= atkCost;
         atkCost *= 1.5;
@@ -48,7 +48,7 @@ void mouseClicked() {
     }
     if (mouseY >= 550 && mouseY <= 600) {
       if (cash >= spdCost) {
-        hero.speed += 1;
+        hero.speed *= 1.05;
         spdLevel++;
         cash -= spdCost;
         spdCost *= 1.5;

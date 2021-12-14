@@ -31,14 +31,12 @@ class Item extends GameObject {
 }
 
 Item randomItem(GameObject obj) {
-  int pick = (int) random(0, 6);
-  switch (pick) {
-    case 0: return new MedKitItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-    case 1: return new HandgunItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-    case 2: return new RifleItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-    case 3: return new ShotgunItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-    case 4: return new SniperItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-    case 5: return new SprayerItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-  }
+  int pick = (int) random(0, 20);
+  if (pick < 5) return new MedKitItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 10) return new HandgunItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 13) return new RifleItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 16) return new ShotgunItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 19) return new SniperItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 20) return new SprayerItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
   return null;
 }

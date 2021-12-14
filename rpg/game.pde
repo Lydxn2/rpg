@@ -21,7 +21,7 @@ void doGame() {
       freeQ = false;
     }
   }
-  
+
   for (Darkness d : darkness)
     d.render();
 
@@ -29,7 +29,7 @@ void doGame() {
     p.act(); p.render();
     if (p.owner instanceof Hero)
       for (Enemy e : enemies) {
-        if (!p.hit.contains(e) && hero.inRoomWith(e) && p.loc.dist(e.loc) <= (p.w + p.h) / 2) {
+        if (p.hp != 0 && !p.hit.contains(e) && hero.inRoomWith(e) && p.loc.dist(e.loc) <= (p.w + e.w) / 2) {
           e.takeDamage(p.atk * hero.atkMult);
           p.takeDamage(1);
           p.hit.add(e);
@@ -93,7 +93,7 @@ void doGame() {
     Enemy e = enemies.get(i);
     if (e.hp == 0) {
       enemies.remove(i);
-      if (random(0, 1) < 0.5)
+      if (random(0, e.dropChance) < 1)
         items.add(randomItem(e));
       int addedCash = (int) random(1, 50);
       cash += addedCash;
@@ -126,4 +126,8 @@ void doGame() {
     mode = Mode.UPGRADE;
     freeE = false;
   }
+  
+  // i'm dead
+  if (hero.hp == 0)
+    mode = Mode.GAMEOVER;
 }

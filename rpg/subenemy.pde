@@ -1,3 +1,8 @@
+// L=Lurker
+// T=Turret
+// S=SpawningPool
+// B=Boss (TBI)
+
 class Lurker extends Enemy {
   Lurker(int roomR, int roomC, float x, float y) {
     super(roomR, roomC, x, y);
@@ -100,6 +105,82 @@ class SpawningPool extends Enemy {
   void render() {
     fill(#dd99ff, this.alpha);
     stroke(#945db0, this.alpha); strokeWeight(5);
+    circle(this.loc.x, this.loc.y, this.w);
+    super.render();
+  }
+}
+
+class Boss extends Enemy {
+  Timer timer;
+  boolean boost1, boost2;
+  
+  Boss(int roomR, int roomC, float x, float y) {
+    super(roomR, roomC, x, y);
+    
+    this.setDimensions(200, 200);
+    this.resetHP(10000);
+    
+    this.timer = new Timer(300);
+    this.timer.setRandomTick();
+    
+    this.boost1 = this.boost2 = false;
+  }
+  
+  void act() {
+    this.timer.tick();
+    if (this.timer.isDone()) {
+      float locX, locY;
+      do {
+        locX = roomOfsX + random(0, Room.DIM);
+        locY = roomOfsY + random(0, Room.DIM);
+      } while (dist(locX, locY, this.loc.x, this.loc.y) < this.w + 80 &&
+               dist(locX, locY, hero.loc.x, hero.loc.y) < 100);
+      
+      int pick = (int) random(0, 20);
+      Enemy enemy;
+      
+      if (pick < 10)
+        enemy = new Lurker(this.roomR, this.roomC, locX, locY);
+      else if (pick < 15)
+        enemy = new Turret(this.roomR, this.roomC, locX, locY);
+      else
+        enemy = new SpawningPool(this.roomR, this.roomC, locX, locY);
+      enemy.setDropChance(3);
+      enemies.add(enemy);
+      
+      if (this.hp <= 5000 && !this.boost1) {
+        this.boost1 = true;
+        int count = 30;
+        for (int i = 0; i < count; i++) {
+          locX = this.loc.x + cos(TAU * i / count) * this.w;
+          locY = this.loc.y + sin(TAU * i / count) * this.h;
+
+          enemy = new Lurker(this.roomR, this.roomC, locX, locY);
+          enemy.setDropChance(8);
+          enemies.add(enemy);
+        }
+      }
+      
+      if (this.hp <= 2500 && !this.boost2) {
+        this.boost2 = true;
+        int count = 8;
+        for (int i = 0; i < count; i++) {
+          locX = this.loc.x + cos(TAU * i / count) * this.w;
+          locY = this.loc.y + sin(TAU * i / count) * this.h;
+
+          enemy = new SpawningPool(this.roomR, this.roomC, locX, locY);
+          enemy.setDropChance(10);
+          enemies.add(enemy);
+        }
+      }
+      
+      this.timer.reset();
+    }
+  }
+  
+  void render() {
+    fill(BLACK, this.alpha);
+    stroke(WHITE, this.alpha); strokeWeight(5);
     circle(this.loc.x, this.loc.y, this.w);
     super.render();
   }

@@ -4,9 +4,14 @@ void doUpgrade() {
   fill(WHITE);
   textAlign(CENTER);
   textFont(gameOverFont, 50);
-  text("HP: LVL " + hpLevel, width / 2, 200);
-  text("ATK: LVL " + atkLevel, width / 2, 400);
-  text("SPD: LVL " + spdLevel, width / 2, 600);
+  text("($" + hpCost + ") HP: LVL " + hpLevel, width / 2, 200);
+  text("($" + atkCost + ") ATK: LVL " + atkLevel, width / 2, 400);
+  text("($" + spdCost + ") SPD: LVL " + spdLevel, width / 2, 600);
+  
+  fill(WHITE);
+  textAlign(RIGHT);
+  textFont(monospaceFont, 50);
+  text("$" + cash, width - 20, 50);
   
   // I love my magic numbers :)
   fill(RED, 100);

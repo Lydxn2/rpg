@@ -1,35 +1,38 @@
 class Button {
   float x, y, w, h;
   String text;
-  color bgCol, textCol;
-  boolean clicked;
-  
-  Button(float x, float y, float w, float h, String text, color bgCol, color textCol) {
+  color col;
+
+  Button(float x, float y, float w, float h, String text, color col) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.text = text;
-    this.bgCol = bgCol;
-    this.textCol = textCol;
-    
-    this.clicked = false;
+    this.col = col;
   }
   
-  void render(int fs) {
-    fill(bgCol);
-    stroke(textCol); strokeWeight(10);
-    rect(this.x, this.y, this.w, this.h, 20);
+  void render() {
+    color newCol = this.isHovered() ? WHITE : this.col;
+    
+    fill(WHITE, 0);
+    stroke(newCol); strokeWeight(5);
+    rectMode(CENTER);
+    rect(this.x, this.y, this.w, this.h);
 
-    fill(textCol);
+    fill(newCol);
     textAlign(CENTER, CENTER);
-    textFont(createFont("Source Code Pro Bold", 1), fs);
-    text(this.text, this.x + this.w / 2, this.y + this.h / 2);
+    textFont(gameOverFont, 40);
+    text(this.text, this.x, this.y);
   }
   
   boolean isHovered() {
     boolean inX = this.x - this.w / 2 <= mouseX && mouseX <= this.x + this.w / 2;
     boolean inY = this.y - this.h / 2 <= mouseY && mouseY <= this.y + this.h / 2;
     return inX && inY;
+  }
+  
+  boolean isClicked() {
+    return this.isHovered() && isClicked;
   }
 }
