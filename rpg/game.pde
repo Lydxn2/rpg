@@ -127,7 +127,6 @@ void doGame() {
     freeE = false;
   }
   
-  // i'm dead
   if (hero.hp == 0)
     mode = Mode.GAMEOVER;
 }

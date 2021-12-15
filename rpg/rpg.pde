@@ -19,7 +19,7 @@ float[] titleX, titleY;
 ArrayList<Particle> particles;
 ArrayList<Projectile> projectiles;
 ArrayList<Message> messages;
-Button restartButton;
+Button startButton, restartButton;
 
 boolean wasPressed, isClicked;
 
@@ -61,44 +61,8 @@ HashMap<String, PImage> imgCache;
 void setup() {
   size(1200, 800, FX2D);
 
-  gameOverFont = createFont("data/fonts/rpg.ttf", 1);
-  monospaceFont = createFont("Consolas Bold", 1);
-  
-  restartButton = new Button(width / 2, 500, 300, 70, "RESTART", #ffe14a);
-
-  imgCache = new HashMap<String, PImage>();
-
-  // bad variable name i know, sorry
-  roomOfsX = (width - Room.DIM) / 2.0;
-  roomOfsY = (height - Room.DIM) / 2.0;
-
-  particles = new ArrayList<Particle>();
-  projectiles = new ArrayList<Projectile>();
-  messages = new ArrayList<Message>();
-  enemies = new ArrayList<Enemy>();
-  items = new ArrayList<Item>();
-  
-  hero = new Hero(width / 2.0, height / 2.0);
-  initTitle();
-  
-  readMap();
-  readLayout();
-  
-  darkness = new ArrayList<Darkness>();
-  for (float x = roomOfsX; x < roomOfsX + Room.DIM; x += DARK_Q) {
-    for (float y = roomOfsY; y < roomOfsY + Room.DIM; y += DARK_Q) {
-      darkness.add(new Darkness(x, y, DARK_Q, DARK_Q));
-    }
-  }
-
-  mode = Mode.GAME;
-  
-  hpLevel = atkLevel = spdLevel = 10;
-  hpCost = atkCost = spdCost = 10;
-  cash = 0;
-  
-  for (int _ = 0; _ < 1000; _++)
-    enemies.add(new Lurker(0, 0, 200, 200));
+  resetAll();
+  mode = Mode.INTRO;
 }
 
 void draw() {
@@ -132,6 +96,42 @@ void initTitle() {
   titleText = new char[3];
   titleColor = new color[] {#FFFFFF, #FFFFFF, #FFFFFF};
   titleX = new float[3]; titleY = new float[3];
+}
+
+void resetAll() {
+  gameOverFont = createFont("data/fonts/rpg.ttf", 1);
+  monospaceFont = createFont("Consolas Bold", 1);
+  
+  startButton = new Button(width / 2.0, 600, 300, 70, "START", #86FF61);
+  restartButton = new Button(width / 2.0, 600, 300, 70, "RESTART", #FFE14A);
+
+  imgCache = new HashMap<String, PImage>();
+
+  roomOfsX = (width - Room.DIM) / 2.0;
+  roomOfsY = (height - Room.DIM) / 2.0;
+
+  particles = new ArrayList<Particle>();
+  projectiles = new ArrayList<Projectile>();
+  messages = new ArrayList<Message>();
+  enemies = new ArrayList<Enemy>();
+  items = new ArrayList<Item>();
+  
+  hpLevel = atkLevel = spdLevel = 1;
+  hpCost = atkCost = spdCost = 10;
+  cash = 0;
+  
+  hero = new Hero(width / 2.0, height / 2.0);
+  
+  initTitle();
+  readMap();
+  readLayout();
+  
+  darkness = new ArrayList<Darkness>();
+  for (float x = roomOfsX; x < roomOfsX + Room.DIM; x += DARK_Q) {
+    for (float y = roomOfsY; y < roomOfsY + Room.DIM; y += DARK_Q) {
+      darkness.add(new Darkness(x, y, DARK_Q, DARK_Q));
+    }
+  }
 }
 
 void readMap() {

@@ -7,6 +7,8 @@ void doGameOver() {
   text("YOU DIED", width / 2, height / 2);
   
   restartButton.render();
-  if (restartButton.isClicked())
+  if (restartButton.isClicked()) {
+    resetAll();
     mode = Mode.INTRO;
+  }
 }

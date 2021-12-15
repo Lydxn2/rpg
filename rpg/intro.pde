@@ -1,5 +1,9 @@
 void doIntro() {
   background(0);
+  
+  startButton.render();
+  if (startButton.isClicked())
+    mode = Mode.GAME;
 
   titleTimer.tick();
   
