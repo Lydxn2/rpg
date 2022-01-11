@@ -33,9 +33,9 @@ class SniperItem extends Item {
   }
 }
 
-class SprayerItem extends Item {
-  SprayerItem(int roomR, int roomC, float x, float y) {
+class FreezeItem extends Item {
+  FreezeItem(int roomR, int roomC, float x, float y) {
     super(roomR, roomC, x, y);
-    this.setImage("data/images/rifle.png", 66, 14);
+    this.setImage("data/images/ice.png", 72, 12);
   }
 }

@@ -6,7 +6,7 @@ class Hero extends GameObject {
   HealthBar hpbar;
 
   int immunityCooldown;
-  int alpha;
+  int alpha, freeze;
   float atkMult, speed;
   
   public Hero(float x, float y) {
@@ -15,7 +15,7 @@ class Hero extends GameObject {
     this.w = this.h = 50;
     this.resetHP(300);
 
-    this.weapon = new Shotgun(this);
+    this.weapon = new Handgun(this);
     this.hpbar = new HealthBar(this);
     
     this.immunityCooldown = 0;
@@ -23,6 +23,7 @@ class Hero extends GameObject {
     
     this.atkMult = 1;
     this.speed = 4;
+    this.freeze = 0;
   }
   
   void act() {
@@ -56,6 +57,8 @@ class Hero extends GameObject {
       
     this.immunityCooldown = max(0, this.immunityCooldown - 1);
     this.alpha = min(255, this.alpha + 30);
+    
+    if (freeze > 0) --freeze;
   }
   
   void render() {
@@ -84,8 +87,8 @@ class Hero extends GameObject {
       this.weapon = new Shotgun(this);
     } else if (item instanceof SniperItem) {
       this.weapon = new Sniper(this);
-    } else if (item instanceof SprayerItem) {
-      this.weapon = new Sprayer(this);
+    } else if (item instanceof FreezeItem) {
+      this.freeze = 60 * 15; // 15 seconds
     }
   }
 }

@@ -8,6 +8,7 @@ enum Mode {
 final color BLACK = #000000;
 final color RED = #FF0000;
 final color WHITE = #FFFFFF;
+final color GREEN = #00FF00;
 
 // title variables
 Timer titleTimer;
@@ -20,6 +21,7 @@ ArrayList<Particle> particles;
 ArrayList<Projectile> projectiles;
 ArrayList<Message> messages;
 Button startButton, restartButton;
+boolean win;
 
 boolean wasPressed, isClicked;
 
@@ -53,7 +55,6 @@ Hero hero;
 int hpLevel, atkLevel, spdLevel, cash;
 int hpCost, atkCost, spdCost;
 
-// pretty self-explanatory
 Mode mode;
 
 HashMap<String, PImage> imgCache;
@@ -132,6 +133,7 @@ void resetAll() {
       darkness.add(new Darkness(x, y, DARK_Q, DARK_Q));
     }
   }
+  win = false;
 }
 
 void readMap() {

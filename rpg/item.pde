@@ -35,8 +35,8 @@ Item randomItem(GameObject obj) {
   if (pick < 5) return new MedKitItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
   if (pick < 10) return new HandgunItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
   if (pick < 13) return new RifleItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-  if (pick < 16) return new ShotgunItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-  if (pick < 19) return new SniperItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
-  if (pick < 20) return new SprayerItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 15) return new ShotgunItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 17) return new SniperItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
+  if (pick < 20) return new FreezeItem(obj.roomR, obj.roomC, obj.loc.x, obj.loc.y);
   return null;
 }

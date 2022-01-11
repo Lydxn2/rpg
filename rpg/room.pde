@@ -34,7 +34,8 @@ class Room {
     // fill room with checker pattern
     for (int i = 0; i < NUM_GRIDS; i++) {
       for (int j = 0; j < NUM_GRIDS; j++) {
-        fill((i + j) % 2 == 0 ? #808080 : #9C9C9C);
+        if (hero.freeze == 0 || (hero.freeze < 60 * 3 && hero.freeze / 10 % 2 == 0)) fill((i + j) % 2 == 0 ? #808080 : #9C9C9C);
+        else fill((i + j) % 2 == 0 ? #C2F4FF : #34CCED);
         noStroke();
         square(roomOfsX + i * GRID_SIZE, roomOfsY + j * GRID_SIZE, GRID_SIZE);
       }

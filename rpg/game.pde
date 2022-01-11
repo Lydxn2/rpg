@@ -1,16 +1,18 @@
 void doGame() {
   background(BLACK);
-
+  
   map[hero.roomR][hero.roomC].render();
   
   for (Item it : items)
     if (hero.inRoomWith(it))
       it.render();
-      
+
   for (int i = 0; i < enemies.size(); i++) {
     Enemy e = enemies.get(i);
-    if (hero.inRoomWith(e))
-      { e.act(); e.render(); }
+    if (hero.inRoomWith(e)) {
+      if (hero.freeze == 0) e.act();
+      e.render();
+    }
   }
 
   for (int i = 0; i < items.size(); i++) {
@@ -76,7 +78,7 @@ void doGame() {
       projectiles.clear();
     }
   }
-  
+
   for (Message m : messages) {
     m.act();
     if (hero.inRoomWith(m))
@@ -92,6 +94,7 @@ void doGame() {
   for (int i = enemies.size() - 1; i >= 0; i--) {
     Enemy e = enemies.get(i);
     if (e.hp == 0) {
+      if (e instanceof Boss) win = true;
       enemies.remove(i);
       if (random(0, e.dropChance) < 1)
         items.add(randomItem(e));
@@ -127,6 +130,6 @@ void doGame() {
     freeE = false;
   }
   
-  if (hero.hp == 0)
+  if (hero.hp == 0 || win)
     mode = Mode.GAMEOVER;
 }

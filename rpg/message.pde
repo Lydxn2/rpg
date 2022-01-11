@@ -2,7 +2,7 @@ class Message extends GameObject {
   final int DURATION = 60;
   
   String text;
-  int roomR, roomC, size;
+  int size;
   Timer timer;
   
   Message(String text, Enemy enemy, int size) {

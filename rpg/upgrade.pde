@@ -13,7 +13,6 @@ void doUpgrade() {
   textFont(monospaceFont, 50);
   text("$" + cash, width - 20, 50);
   
-  // I love my magic numbers :)
   fill(RED, 100);
   stroke(RED, 255); strokeWeight(2);
   if (mouseY >= 150 && mouseY <= 200) {
@@ -31,7 +30,3 @@ void doUpgrade() {
     freeE = false;
   }
 }
-
-// x: 160 - 200
-// x2: 360 - 400
-// x3: 560 - 600

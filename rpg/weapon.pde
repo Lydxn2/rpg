@@ -48,7 +48,6 @@ class WeaponCooldown {
   }
   
   void render() {
-    // FIXME: don't hardcode coords plz
     float x = 100, y = 500, w = 80, h = 80;
     float ang = map(this.timer.curTick, 0, this.timer.numTicks, 0, TAU);
    

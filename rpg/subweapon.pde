@@ -105,35 +105,7 @@ class Sniper extends Weapon {
   }
 }
 
-// yeah.
-class Sprayer extends Weapon {
-  final int CRAZY = 50;
-  
-  Sprayer(GameObject owner) {
-    super(owner, "data/images/rifle.png");
-    this.setCooldown(4);
-    this.setDimensions(66, 14);
-  }
-  
-  void shoot() {
-    super.shoot();
-
-    float startAng = atan2(mouseY - this.owner.loc.y, mouseX - this.owner.loc.x);
-    for (int i = 0; i < CRAZY; i++) {
-      float ang = startAng + i * TAU / CRAZY;
-      Projectile projectile = new Bullet(this.owner, ang);
-      projectile.setATK(0.5);
-      projectile.setPierce(2);
-      projectile.setRange(9999);
-      projectile.setVelocity(15);
-      projectile.offsetTo(this.w);
-      
-      projectiles.add(projectile);
-    }
-  }
-}
-
-// Ultimate (easter egg)
+// (easter egg)
 // - The ultimate gun
 class Ultimate extends Weapon {
   Ultimate(GameObject owner) {
